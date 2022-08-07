@@ -8,16 +8,12 @@ import time
 csv_path = 'data/jeopardy.csv'
 gzip_csv_path = 'data/jeopardy.csv.gz'
 
-def use_pandas():
-    dataframe = pd.read_json("data/jeopardy.json")
-    dataframe.to_csv("data/jeopardy.csv")
-
-
+# TODO: Fix this
 def dehydrate():
     with open(csv_path, 'r', encoding='utf8') as in_file, open(gzip_csv_path, 'w') as out_file:
         out_file.write(gzip.compress(in_file.read()))
 
-
+# TODO: Fix this
 def hydrate_if_required():
     if not os.path.exists(csv_path):
         with open(gzip_csv_path, 'rb') as in_file, open(csv_path, 'w', encoding='utf8') as out_file:
