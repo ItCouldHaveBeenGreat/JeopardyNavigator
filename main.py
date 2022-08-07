@@ -47,6 +47,7 @@ def query(df):
     print('NEW ROUND')
     input('%s, %s' % (seed_question.category, seed_question.air_date))
     for index, question in questions.iterrows():
+        print('-----------------------')
         print('QUESTION: %s: %s' % (question.value, question.answer)) # Unclear why this field is named this way...
         # time.sleep(question.answer.count(' ') * 0.33 + 1)
         input('GO!')
