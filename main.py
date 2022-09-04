@@ -22,15 +22,16 @@ def hydrate_if_required():
 
 def hydrate_dataframe():
     df = pd.read_csv(csv_path)
-    # Filter dataframe to only include questions from after 2020
-    df = df[(df['air_date'] > '2015-01-01') & (df['air_date'] < '2021-08-13')]
+    # Filter dataframe to only include questions from after 2015
+    # df = df[(df['air_date'] > '2015-01-01') & (df['air_date'] < '2021-08-13')]
+    # df = df[(df['air_date'] > '2015-01-01') & (df['air_date'] < '2021-08-13') & (df['category'] == 'WORD ORIGINS')]
     pd.set_option('display.max_rows', 500)
     pd.set_option('display.min_rows', 500)
     pd.set_option('display.max_columns', 500)
     return df
 
 
-def get_category_distribution(df):
+def print_category_distribution(df):
     # Display an order list of category frequency
     print(df['category'].value_counts())
 
@@ -54,7 +55,7 @@ def query(df):
 def main():
     # dehydrate() # this is busted
     df = hydrate_dataframe()
-    # get_category_distribution(df)
+    print_category_distribution(df)
     query(df)
 
 
