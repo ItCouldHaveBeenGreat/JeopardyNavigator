@@ -2,11 +2,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
-
-sun_planetary_parameter = 700000000
+g = 6.6743e-11
+mass_sun = 1.989e+30
+au_to_m =  1.495978707e11
+sun_planetary_parameter = mass_sun * g
 earth_orbit_average_radius = 1.0
-points_of_interest = {
-    'sun': [0, 0],
+points_of_interest = { # Measured in AU; minimum and maximum distances from the sun
+    'sun': [0.00465, 0.00465],
     'mercury': [0.308, 0.467],
     'venus': [0.718, 0.728],
     'earth': [0.983, 1.017],
@@ -24,16 +26,23 @@ def delta_v_from_earth(x):
     return delta_v(earth_orbit_average_radius, x)
 
 
-def delta_v(r_origin, x):
-    return np.abs(math.sqrt(sun_planetary_parameter/r_origin)*(np.sqrt((2*r_origin)/np.array(r_origin+x))-1))
+def delta_v(r_origin, r_destination):
+    # Random equation from a real engineering youtube video; applied it blindly
+    r_origin = au_to_m * r_origin
+    r_destination = au_to_m * r_destination
+    return np.abs(
+        (math.sqrt(sun_planetary_parameter / r_origin)) *
+        (np.sqrt(2 * r_destination / (r_origin +  np.array(r_destination))) - 1)
+    )
 
 
 def round_to_multiple(x, multiple):
     return multiple * round(x / multiple)
 
 
-plt.figure(figsize=(20,12))
+plt.figure(figsize=(20, 12))
 ax = plt.subplot()
+ax.set_yscale('log')
 
 points = np.arange(0.0, 60, 0.005)
 annotated_points = []
@@ -50,5 +59,5 @@ for point_name, values in points_of_interest.items():
     ax.annotate('{} ({})'.format(point_name, point_y), (point_x, point_y))
     #ax.annotate(point_name + '_min', (values[0], float(delta_v_from_earth(values[0]))))
     #ax.annotate(point_name + '_max', (values[1], float(delta_v_from_earth(values[1]))))
-plt.ylabel('Delta V Required (m/s, approx)')
+plt.ylabel('Delta V Required (km/s)')
 plt.show()
