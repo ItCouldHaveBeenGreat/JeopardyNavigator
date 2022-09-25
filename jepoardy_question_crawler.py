@@ -86,16 +86,10 @@ def query(df):
         print('SECONDS ELAPSED: %s' % round(end_time - start_time, 3), flush=True)
 
 
-# Yes, I write java.
-def main():
-    # dehydrate() # this is busted
-    df = hydrate_dataframe()
-    print_category_distribution(df)
-    categories_of_interest = ['POTPOURRI', 'HODGEPODGE']
-    df = df[(df['category'].isin(categories_of_interest))]
+df = hydrate_dataframe()
+print_category_distribution(df)
+categories_of_interest = ['PHILOSOPHY', 'LITERARY CHARACTERS']
+df = df[(df['category'].isin(categories_of_interest))]
 
-    while True:
-        query(df)
-
-
-main()
+while True:
+    query(df)
